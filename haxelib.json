@@ -1,0 +1,11 @@
+{
+    "name": "SuperSickAPI",
+    "description": "The Super Sick API for FNF Central",
+    "version": "0.0.1",
+    "releasenote": "Why Do I Need This For An Internal API?",
+    "url": "https://github.com/FNFCentral/SuperSickAPI",
+    "classPath": "source",
+    "license": "Apache",
+    "contributors": ["JRed"],
+    "dependencies": {}
+}

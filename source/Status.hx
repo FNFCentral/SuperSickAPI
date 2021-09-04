@@ -29,7 +29,7 @@ class Status {
             return songID;
         }
 
-        return 0;
+        return null;
     }
 
     static function calcDiffID(diff: Int) {
@@ -39,6 +39,6 @@ class Status {
             return diffID;
         }
 
-        return 0;
+        return null;
     }
 }

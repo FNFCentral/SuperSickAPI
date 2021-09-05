@@ -10,12 +10,12 @@ class Status {
     static public function Note(hit: Bool, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
         Util.getParent().postMessage({purpose: "note", hit: hit, currentScore: currentScore, combo: combo, accuracy: accuracy, songID: Util.calcSongID(song), diffID: Util.calcDiffID(diff)}, Util.getTargetURL());
     }
-    
-    static public function NoteHit(noteTime: Int, delay: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
+
+    static public function NoteHit(noteTime: Float, delay: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
         Util.getParent().postMessage({purpose: "hit", noteTime: noteTime, delay: delay, currentScore: currentScore, combo: combo, accuracy: accuracy, songID: Util.calcSongID(song), diffID: Util.calcDiffID(diff)}, Util.getTargetURL());
     }
 
-    static public function NoteMiss(noteTime: Int, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
+    static public function NoteMiss(noteTime: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
         Util.getParent().postMessage({purpose: "miss", noteTime: noteTime, currentScore: currentScore, combo: combo, accuracy: accuracy, songID: Util.calcSongID(song), diffID: Util.calcDiffID(diff)}, Util.getTargetURL());
     }
 

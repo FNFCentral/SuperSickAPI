@@ -23,7 +23,7 @@ class Register {
     }
 
     static function setData(event: MessageEvent) {
-        trace("Message Recieved!  From:" + event);
+        trace("Message Recieved!  From: " + event.origin);
 
         if (event.origin != Util.getTargetURL())
             return;
@@ -31,7 +31,7 @@ class Register {
         if (event.data.purpose = "set_ID_data") {
             Info.songIDs = event.data.songIDs;
             Info.difficultyIDs = event.data.difficultyIDs;
-            trace("Set Info From:" + event.data);
+            trace("Set Info From: " + event.data);
         }
     }
 }

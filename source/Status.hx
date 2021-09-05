@@ -7,7 +7,7 @@ import js.Browser;
 **/
 class Status {
     static public function Note(hit: Bool, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
-        Util.getParent().postMessage({purpose: "note_hit", hit: hit, currentScore: currentScore, combo: combo, accuracy: accuracy, songID: calcSongID(song), diffID: calcDiffID(diff)}, Util.getTargetURL());
+        Util.getParent().postMessage({purpose: "note", hit: hit, currentScore: currentScore, combo: combo, accuracy: accuracy, songID: calcSongID(song), diffID: calcDiffID(diff)}, Util.getTargetURL());
     }
 
     static public function Start(song: String, diff: Int) {
@@ -23,8 +23,6 @@ class Status {
     }
 
     static function calcSongID(song: String) {
-        trace(Info.songIDs);
-        trace(song);
         var songID = Info.songIDs.get(song);
 
         if (songID != null) {

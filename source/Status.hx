@@ -24,7 +24,7 @@ class Status {
     }
 
     static public function Pass(score: Int, accuracy: Float, song: String, diff: Int) {
-        Util.getParent().postMessage({purpose: "song_pass", songID: Util.calcSongID(song), diffID: Util.calcDiffID(diff)}, Util.getTargetURL());
+        Util.getParent().postMessage({purpose: "song_pass", score: score, accuracy: accuracy, songID: Util.calcSongID(song), diffID: Util.calcDiffID(diff)}, Util.getTargetURL());
     }
 
     static public function Fail(score: Int, accuracy: Float, song: String, diff: Int) {

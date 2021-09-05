@@ -23,6 +23,8 @@ class Status {
     }
 
     static function calcSongID(song: String) {
+        trace(Info.songIDs);
+        trace(song);
         var songID = Info.songIDs.get(song);
 
         if (songID != null) {

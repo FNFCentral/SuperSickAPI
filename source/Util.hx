@@ -13,8 +13,6 @@ class Util {
     }
 
     public static function getTargetURL() {
-        if (Browser.location.protocol == "http:") return "http://fnfcentral.com";
-
         return "https://fnfcentral.com";
     }
 

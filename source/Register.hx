@@ -31,6 +31,7 @@ class Register {
         if (event.data.purpose = "set_ID_data") {
             Info.songIDs = event.data.songIDs;
             Info.difficultyIDs = event.data.difficultyIDs;
+            Info.topScoresOnServer = Info.setTopScoresFromServer(event.data.topScores);
             trace("Set Info From: " + event.data);
         }
     }

@@ -35,4 +35,14 @@ class Util {
 
         return null;
     }
+
+    static public function getTopScoreSavedFromServer(song:String, diff:Int) {
+        var score = Info.topScoresOnServer.get(calcSongID(song)+"~"+calcDiffID(diff));
+
+        if (score != null) {
+            return score;
+        }
+
+        return 0;
+    }
 }   

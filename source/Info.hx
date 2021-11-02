@@ -15,8 +15,11 @@ class Info {
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
         var topScores = new Map<Int, Int>();
 
+        trace("Processing Top Scores!");
+
         for (score in scores) {
             topScores.set(score.diffID, score.score);
+            trace("Added " + score.score + " For " + score.diffID);
         }
 
         return topScores;
@@ -25,13 +28,19 @@ class Info {
     static function processSongsInfo(songs: Array<Dynamic>) {
         var processedSongs = new Map<String, Map<Int, Int>>();
 
+        trace("Processing Songs!  Songs Given: " + songs.length);
+
         for (song in songs) {
             var diffs: Array<Dynamic> = song.diffs;
+
+            trace("Processing Song " + song + " Diffs Given " + diffs.length);
 
             var processedDiffs = new Map<Int, Int>();
 
             for (diff in diffs) {
                 processedDiffs.set(diff.internalNumber, diff.diffID);
+
+                trace("Set Diff " + diff.internalNumber + " For Song " + song + " As DiffID " + diff.diffID);
             }
 
             processedSongs.set(song.internalName, processedDiffs);

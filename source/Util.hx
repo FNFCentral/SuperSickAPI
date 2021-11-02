@@ -10,11 +10,15 @@ class Util {
         #end
     }
 
-    public static function calcDiffID(song: String, diff: Int): Null<Int> {
-        var song = Info.songs.get(song);
+    public static function calcDiffID(intenalSong: String, diff: Int): Null<Int> {
+        var song = Info.songs.get(intenalSong);
+
+        trace("Finding Diff ID of " + intenalSong + " " + diff + "\nFound Song: " + song);
 
         if (song != null) {
             var diffID = song.get(diff);
+
+            trace("Finding Diff ID of " + intenalSong + " " + diff + "\nFound Diff ID: " + diffID);
 
             if (diffID != null) {
                 return diffID;
@@ -29,6 +33,8 @@ class Util {
 
         if (diffID != null) {
             var score = Info.topScoresOnServer.get(diffID);
+
+            trace("Looking For Top Score From Server For: " + song + " " + diff + "\nFound Diff ID of " + diffID + "\nFound Score: " + score);
 
             if (score != null) {
                 return score;

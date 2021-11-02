@@ -1,46 +1,38 @@
 package;
 
-import js.Browser;
-
 /**
  * A whole lotta utils  
 **/
 class Util {
-    public static function getParent() {
-        var parentWindow = Browser.window.parent;
-
-        return parentWindow;
+    public static function sendMessage(message: Dynamic) {
+        #if html5
+        js.Message.sendMessage(message);
+        #end
     }
 
-    public static function getTargetURL() {
-        return "https://fnfcentral.com";
-    }
+    public static function calcDiffID(song: String, diff: Int): Null<Int> {
+        var song = Info.songs.get(song);
 
-    public static function calcSongID(song: String) {
-        var songID = Info.songIDs.get(song);
+        if (song != null) {
+            var diffID = song.get(diff);
 
-        if (songID != null) {
-            return songID;
+            if (diffID != null) {
+                return diffID;
+            }
         }
 
         return null;
     }
 
-    public static function calcDiffID(diff: Int) {
-        var diffID = Info.difficultyIDs.get(diff);
+    static public function getTopScoreSavedFromServer(song: String, diff: Int): Int {
+        var diffID = calcDiffID(song, diff);
 
         if (diffID != null) {
-            return diffID;
-        }
+            var score = Info.topScoresOnServer.get(diffID);
 
-        return null;
-    }
-
-    static public function getTopScoreSavedFromServer(song:String, diff:Int) {
-        var score = Info.topScoresOnServer.get(calcSongID(song)+"~"+calcDiffID(diff));
-
-        if (score != null) {
-            return score;
+            if (score != null) {
+                return score;
+            }
         }
 
         return 0;

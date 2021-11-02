@@ -13,12 +13,8 @@ class Util {
     public static function calcDiffID(intenalSong: String, diff: Int): Null<Int> {
         var song = Info.songs.get(intenalSong);
 
-        trace("Finding Diff ID of " + intenalSong + " " + diff + "\nFound Song: " + song);
-
         if (song != null) {
             var diffID = song.get(diff);
-
-            trace("Finding Diff ID of " + intenalSong + " " + diff + "\nFound Diff ID: " + diffID);
 
             if (diffID != null) {
                 return diffID;

@@ -6,7 +6,7 @@ package;
 class Util {
     public static function sendMessage(message: Dynamic) {
         #if html5
-        js.Message.sendMessage(message);
+        html.HTMLMessage.sendMessage(message);
         #end
     }
 

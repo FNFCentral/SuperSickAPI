@@ -24,6 +24,8 @@ class HTMLRegister {
         if (event.origin != HTMLMessage.getTargetURL())
             return;
 
-        if (event.data.purpose = "set_mod_data") Info.setData(event.data);
+        if (event.data.purpose = "set_mod_data") Info.setModData(event.data);
+
+        if (event.data.purpose = "set_score_data") Info.setScoreData(event.data);
     }
 }

@@ -7,8 +7,11 @@ class Info {
     public static var songs:Map<String, Map<Int, Int>> = new Map<String, Map<Int, Int>>();
     public static var topScoresOnServer:Map<Int, Int> = new Map<Int, Int>();
 
-    static public function setData(data: Dynamic) {
+    static public function setModData(data: Dynamic) {
         if (data.songs != null) songs = processSongsInfo(data.songs);
+    }
+
+    static public function setScoreData(data: Dynamic) {
         if (data.topScores != null) topScoresOnServer = processTopScoresFromServer(data.topScores);
     }
 

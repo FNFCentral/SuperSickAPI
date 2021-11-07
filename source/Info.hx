@@ -4,15 +4,26 @@ package;
  * Holds all the game info.
 **/
 class Info {
-    public static var songs:Map<String, Map<Int, Int>> = new Map<String, Map<Int, Int>>();
-    public static var topScoresOnServer:Map<Int, Int> = new Map<Int, Int>();
+    public static var songs: Map<String, Map<Int, Int>> = new Map<String, Map<Int, Int>>();
+    public static var extraInfos: Map<String, Int> = new Map<String, Int>();
 
-    static public function setModData(data: Dynamic) {
+    public static var topScoresOnServer: Map<Int, Int> = new Map<Int, Int>();
+
+    public static var userExtraInfosStringsOnServer: Map<String, String> = new Map<String, String>();
+    public static var userExtraInfosNumbersOnServer: Map<String, Int> = new Map<String, Int>();
+    public static var userExtraInfosBooleansOnServer: Map<String, Bool> = new Map<String, Bool>();
+
+    public static function setModData(data: Dynamic) {
         if (data.songs != null) songs = processSongsInfo(data.songs);
+        if (data.extraInfos != null) extraInfos = processExtraInfos(data.extraInfos);
     }
 
-    static public function setScoreData(data: Dynamic) {
+    public static function setScoreData(data: Dynamic) {
         if (data.topScores != null) topScoresOnServer = processTopScoresFromServer(data.topScores);
+    }
+
+    public static function setExtraInfo(data: Dynamic) {
+        if (data.userExtraInfos != null) processUserExtraInfosFromServer(data.userExtraInfos);
     }
 
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
@@ -50,5 +61,39 @@ class Info {
         }
 
         return processedSongs;
+    }
+
+    static function processExtraInfos(extraInfos: Array<Dynamic>) {
+        var processedExtraInfos = new Map<String, Int>();
+
+        for (extraInfo in extraInfos) {
+            processedExtraInfos.set(extraInfo.internalName, extraInfo.extraInfoID);
+        }
+
+        return processedExtraInfos;
+    }
+
+    static function processUserExtraInfosFromServer(userExtraInfos: Array<Dynamic>) {
+        var processedUserExtraInfosStrings = new Map<String, String>();
+        var processedUserExtraInfosNumbers = new Map<String, Int>();
+        var processedUserExtraInfosBooleans = new Map<String, Bool>();
+
+        for (userExtraInfo in userExtraInfos) {
+            switch (userExtraInfo.extraInfo.valueType) {
+                case "STRING": 
+                    processedUserExtraInfosStrings.set(userExtraInfo.extraInfo.internalName,  userExtraInfo.value);
+                    trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
+                case "NUMBER": 
+                    processedUserExtraInfosNumbers.set(userExtraInfo.extraInfo.internalName,  userExtraInfo.value);
+                    trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
+                case "BOOLEAN": 
+                    processedUserExtraInfosBooleans.set(userExtraInfo.extraInfo.internalName,  userExtraInfo.value);
+                    trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
+            }
+        }
+
+        userExtraInfosStringsOnServer = processedUserExtraInfosStrings;
+        userExtraInfosNumbersOnServer = processedUserExtraInfosNumbers;
+        userExtraInfosBooleansOnServer = processedUserExtraInfosBooleans;
     }
 }

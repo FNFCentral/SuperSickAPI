@@ -27,5 +27,7 @@ class HTMLRegister {
         if (event.data.purpose = "set_mod_data") Info.setModData(event.data);
 
         if (event.data.purpose = "set_score_data") Info.setScoreData(event.data);
+
+        if (event.data.purpose = "set_extra_info") Info.setExtraInfo(event.data);
     }
 }

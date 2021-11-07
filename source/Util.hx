@@ -24,6 +24,10 @@ class Util {
         return null;
     }
 
+    public static function calcExtraInfoID(intenalName: String): Null<Int> {
+        return Info.extraInfos.get(intenalName);
+    }
+
     static public function getTopScoreSavedFromServer(song: String, diff: Int): Int {
         var diffID = calcDiffID(song, diff);
 
@@ -38,5 +42,40 @@ class Util {
         }
 
         return 0;
+    }
+
+    static public function saveUserExtraInfoString(internalName: String, value: String) {
+        var extraInfoID = calcExtraInfoID(internalName);
+
+        if (extraInfoID != null) {
+            sendMessage({purpose: "save_extra_info", extraInfoID: extraInfoID, value: value});
+            trace("Sent save request for Extra Info " + extraInfoID + " of value " + value);
+        } else {
+            trace("Attempted To Save Extra Info " + internalName + " which does not exist of value " + value);
+        }
+    }
+
+    static public function getUserExtraInfoStringFromServer(internalName: String): String {
+        var value = Info.userExtraInfosStringsOnServer.get(internalName);
+
+        trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+
+        return value;
+    }
+
+    static public function getUserExtraInfoNumberFromServer(internalName: String): Int {
+        var value = Info.userExtraInfosNumbersOnServer.get(internalName);
+
+        trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+
+        return value;
+    }
+
+    static public function getUserExtraInfoBooleanFromServer(internalName: String): Bool {
+        var value = Info.userExtraInfosBooleansOnServer.get(internalName);
+
+        trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+
+        return value;
     }
 }   

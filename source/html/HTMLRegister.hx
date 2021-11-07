@@ -19,10 +19,12 @@ class HTMLRegister {
     }
 
     static function listenForMessages(event: MessageEvent) {
-        trace("Message Recieved!  From: " + event.origin);
-
-        if (event.origin != HTMLMessage.getTargetURL())
+        if (event.origin != HTMLMessage.getTargetURL()) {
+            trace("Message Recieved!  From Bad Origin: " + event.origin); 
             return;
+        }
+
+        trace("Message Recieved!  From Good Origin: " + event.origin + "\nWith Purpose: " + event.data.purpose);
 
         switch (event.data.purpose) {
             case "set_mod_data": Info.setModData(event.data);
@@ -31,7 +33,7 @@ class HTMLRegister {
 
             case "set_extra_info": Info.setExtraInfo(event.data);
 
-            default: trace("Unknown Message Purpose: " + event.origin);
+            default: trace("Unknown Message Purpose: " + event.data.purpose);
         }
     }
 }

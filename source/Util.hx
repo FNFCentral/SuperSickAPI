@@ -44,7 +44,7 @@ class Util {
         return 0;
     }
 
-    static public function saveUserExtraInfoString(internalName: String, value: String) {
+    static public function saveUserExtraInfo(internalName: String, value: Dynamic) {
         var extraInfoID = calcExtraInfoID(internalName);
 
         if (extraInfoID != null) {

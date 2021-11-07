@@ -24,10 +24,14 @@ class HTMLRegister {
         if (event.origin != HTMLMessage.getTargetURL())
             return;
 
-        if (event.data.purpose = "set_mod_data") Info.setModData(event.data);
+        switch (event.data.purpose) {
+            case "set_mod_data": Info.setModData(event.data);
 
-        if (event.data.purpose = "set_score_data") Info.setScoreData(event.data);
+            case "set_score_data": Info.setScoreData(event.data);
 
-        if (event.data.purpose = "set_extra_info") Info.setExtraInfo(event.data);
+            case "set_extra_info": Info.setExtraInfo(event.data);
+
+            default: trace("Unknown Message Purpose: " + event.origin);
+        }
     }
 }

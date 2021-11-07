@@ -66,8 +66,11 @@ class Info {
     static function processExtraInfos(extraInfos: Array<Dynamic>) {
         var processedExtraInfos = new Map<String, Int>();
 
+        trace("Processing Extra Infos!");
+
         for (extraInfo in extraInfos) {
             processedExtraInfos.set(extraInfo.internalName, extraInfo.extraInfoID);
+            trace("Set Internal Name " + extraInfo.internalName + " to " + extraInfo.extraInfoID);
         }
 
         return processedExtraInfos;
@@ -77,6 +80,8 @@ class Info {
         var processedUserExtraInfosStrings = new Map<String, String>();
         var processedUserExtraInfosNumbers = new Map<String, Int>();
         var processedUserExtraInfosBooleans = new Map<String, Bool>();
+
+        trace("Processing User Extra Infos!");
 
         for (userExtraInfo in userExtraInfos) {
             switch (userExtraInfo.extraInfo.valueType) {
@@ -89,6 +94,8 @@ class Info {
                 case "BOOLEAN": 
                     processedUserExtraInfosBooleans.set(userExtraInfo.extraInfo.internalName,  userExtraInfo.value);
                     trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
+                default:
+                    trace("Bad Value Type " + userExtraInfo.extraInfo.valueType + " for " + userExtraInfo.extraInfo.internalName);
             }
         }
 

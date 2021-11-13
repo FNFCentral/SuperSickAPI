@@ -3,12 +3,12 @@ package;
  * The status manager.  
 **/
 class Status {
-    static public function NoteHit(noteTime: Float, delay: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
-        Util.sendMessage({purpose: "hit", noteTime: noteTime, delay: delay, currentScore: currentScore, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
+    static public function NoteHit(noteTime: Float, delay: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int, noteType: Note = Note.Basic) {
+        Util.sendMessage({purpose: "hit", noteTime: noteTime, noteType: noteType, delay: delay, currentScore: currentScore, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
     }
 
-    static public function NoteMiss(noteTime: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int) {
-        Util.sendMessage({purpose: "miss", noteTime: noteTime, currentScore: currentScore, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
+    static public function NoteMiss(noteTime: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int, noteType: Note = Note.Basic) {
+        Util.sendMessage({purpose: "miss", noteTime: noteTime, noteType: noteType, currentScore: currentScore, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
     }
 
     static public function Start(song: String, diff: Int) {

@@ -3,6 +3,10 @@ package;
  * The status manager.  
 **/
 class Status {
+    static public function State(currentScore: Int, currentTime: Float, health: Float, combo: Int, accuracy: Float, song: String, diff: Int) {
+        Util.sendMessage({purpose: "state", currentScore: currentScore, currentTime: currentTime, health: health, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
+    }
+
     static public function NoteHit(noteTime: Float, delay: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int, noteType: Note = Note.Basic) {
         Util.sendMessage({purpose: "hit", noteTime: noteTime, noteType: noteType, delay: delay, currentScore: currentScore, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
     }

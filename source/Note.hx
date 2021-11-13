@@ -1,3 +1,5 @@
+package;
+
 enum Note {
     Basic;
     Holy;

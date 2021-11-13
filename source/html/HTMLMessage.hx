@@ -17,6 +17,16 @@ class HTMLMessage {
     }
 
     public static function getTargetURL() {
-        return "https://fnfcentral.com";
+        var target;
+
+        #if local
+        target = "https://local.fnfcentral.com";
+        #elseif canary
+        target = "https://canary.fnfcentral.com";
+        #else 
+        target = "https://fnfcentral.com";
+        #end
+
+        return target;
     }
 }

@@ -8,11 +8,11 @@ class Status {
         Util.sendMessage({purpose: "state", currentScore: currentScore, currentTime: currentTime, health: health, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
     }
 
-    static public function NoteHit(noteTime: Float, delay: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int, noteType: Note = Note.Basic) {
+    static public function NoteHit(noteTime: Float, delay: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int, noteType: Int = 0) {
         Util.sendMessage({purpose: "hit", noteTime: noteTime, noteType: noteType, delay: delay, currentScore: currentScore, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
     }
 
-    static public function NoteMiss(noteTime: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int, noteType: Note = Note.Basic) {
+    static public function NoteMiss(noteTime: Float, currentScore: Int, combo: Int, accuracy: Float, song: String, diff: Int, noteType: Int = 0) {
         Util.sendMessage({purpose: "miss", noteTime: noteTime, noteType: noteType, currentScore: currentScore, combo: combo, accuracy: accuracy, diffID: Util.calcDiffID(song, diff)});
     }
 

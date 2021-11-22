@@ -29,7 +29,7 @@ class Info {
     }
 
     public static function setSettingData(data: Dynamic) {
-        if (data != null) processUserSettingsFromServer(data);
+        if (data != null) processUserSettingsFromServer(data.userSettings);
     }
 
     static function processTopScoresFromServer(scores: Array<Dynamic>) {

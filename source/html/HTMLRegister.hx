@@ -33,6 +33,8 @@ class HTMLRegister {
 
             case "set_extra_info": Info.setExtraInfo(event.data);
 
+            case "set_settings": Info.setSettingData(event.data);
+
             default: trace("Unknown Message Purpose: " + event.data.purpose);
         }
     }

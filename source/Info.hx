@@ -13,6 +13,8 @@ class Info {
     public static var userExtraInfosNumbersOnServer: Map<String, Int> = new Map<String, Int>();
     public static var userExtraInfosBooleansOnServer: Map<String, Bool> = new Map<String, Bool>();
 
+    public static var userSettings: Map<String, Setting> = new Map<String, Setting>();
+
     public static function setModData(data: Dynamic) {
         if (data.songs != null) songs = processSongsInfo(data.songs);
         if (data.extraInfos != null) extraInfos = processExtraInfos(data.extraInfos);
@@ -24,6 +26,10 @@ class Info {
 
     public static function setExtraInfo(data: Dynamic) {
         if (data.userExtraInfos != null) processUserExtraInfosFromServer(data.userExtraInfos);
+    }
+
+    public static function setSettingData(data: Dynamic) {
+        if (data != null) processUserSettingsFromServer(data);
     }
 
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
@@ -102,5 +108,16 @@ class Info {
         userExtraInfosStringsOnServer = processedUserExtraInfosStrings;
         userExtraInfosNumbersOnServer = processedUserExtraInfosNumbers;
         userExtraInfosBooleansOnServer = processedUserExtraInfosBooleans;
+    }
+
+    static function processUserSettingsFromServer(userSettings: Array<Dynamic>) {
+        var processedUserSettingsBooleans = new Map<String, Setting>();
+
+        trace("Processing User Settings!");
+
+        for (userSetting in userSettings) {
+            processedUserSettingsBooleans.set(userSetting.internalName, new Setting(userSetting.global, userSetting.value, userSetting.settingID));
+            trace("Added Value " + userSetting.value + " for " + userSetting.internalName);
+        }
     }
 }

@@ -78,4 +78,23 @@ class Util {
 
         return value;
     }
+
+    static public function saveSetting(internalName: String, value: String) {
+        var userSetting = Info.userSettings.get(internalName);
+
+        if (userSetting != null) {
+            userSetting.save(value);
+            trace("Sent save request for Setting " + internalName + " of value " + value);
+        } else {
+            trace("Attempted To Save Setting " + internalName + " which does not exist of value " + value);
+        }
+    }
+
+    static public function getSettingFromServer(internalName: String): String {
+        var value = Info.userSettings.get(internalName).get();
+
+        trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+
+        return value;
+    }
 }   

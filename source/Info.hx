@@ -30,7 +30,7 @@ class Info {
     }
 
     public static function setSettingData(data: Dynamic) {
-        if (data != null) userSettings = processUserSettings(data);
+        if (data != null) userSettings = processUserSettings(data.userSettings);
     }
 
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
@@ -118,7 +118,7 @@ class Info {
 
         for (userSetting in newUserSettings) {
             processedUserSettings.set(userSetting.internalName, new Setting(userSetting.global, userSetting.value, userSetting.settingID));
-            trace("Added Value " + userSetting.value + " for " + userSetting.internalName);
+            trace("Added Settings Value " + userSetting.value + " for " + userSetting.internalName);
         }
 
         return processedUserSettings;

@@ -18,6 +18,7 @@ class Info {
     public static function setModData(data: Dynamic) {
         if (data.songs != null) songs = processSongsInfo(data.songs);
         if (data.extraInfos != null) extraInfos = processExtraInfos(data.extraInfos);
+        if (data.settings != null) userSettings = processUserSettings(data.settings);
     }
 
     public static function setScoreData(data: Dynamic) {
@@ -29,7 +30,7 @@ class Info {
     }
 
     public static function setSettingData(data: Dynamic) {
-        if (data != null) processUserSettingsFromServer(data.userSettings);
+        if (data != null) userSettings = processUserSettings(data);
     }
 
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
@@ -87,7 +88,7 @@ class Info {
         var processedUserExtraInfosNumbers = new Map<String, Int>();
         var processedUserExtraInfosBooleans = new Map<String, Bool>();
 
-        trace("Processing User Extra Infos!");
+        trace("Processing User Extra Infos From: " + userExtraInfos);
 
         for (userExtraInfo in userExtraInfos) {
             switch (userExtraInfo.extraInfo.valueType) {
@@ -110,14 +111,16 @@ class Info {
         userExtraInfosBooleansOnServer = processedUserExtraInfosBooleans;
     }
 
-    static function processUserSettingsFromServer(userSettings: Array<Dynamic>) {
-        var processedUserSettingsBooleans = new Map<String, Setting>();
+    static function processUserSettings(newUserSettings: Array<Dynamic>) {
+        var processedUserSettings = userSettings.copy();
 
         trace("Processing User Settings!");
 
-        for (userSetting in userSettings) {
-            processedUserSettingsBooleans.set(userSetting.internalName, new Setting(userSetting.global, userSetting.value, userSetting.settingID));
+        for (userSetting in newUserSettings) {
+            processedUserSettings.set(userSetting.internalName, new Setting(userSetting.global, userSetting.value, userSetting.settingID));
             trace("Added Value " + userSetting.value + " for " + userSetting.internalName);
         }
+
+        return processedUserSettings;
     }
 }

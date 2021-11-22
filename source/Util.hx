@@ -91,10 +91,18 @@ class Util {
     }
 
     static public function getSettingFromServer(internalName: String): String {
-        var value = Info.userSettings.get(internalName).get();
+        var value = Info.userSettings.get(internalName);
+
+        var returnValue: Null<String>;
+
+        if (value != null) {
+            returnValue = value.get();
+        } else {
+            returnValue = null;
+        }
 
         trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
 
-        return value;
+        return returnValue;
     }
 }   

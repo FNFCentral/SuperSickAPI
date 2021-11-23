@@ -66,7 +66,7 @@ class Util {
     static public function getUserExtraInfoNumberFromServer(internalName: String): Int {
         var value = Info.userExtraInfosNumbersOnServer.get(internalName);
 
-        trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+        trace("Looking For Extra Info Number From Server For: " + internalName + "\nFound Value of " + value);
 
         return value;
     }
@@ -74,7 +74,7 @@ class Util {
     static public function getUserExtraInfoBooleanFromServer(internalName: String): Bool {
         var value = Info.userExtraInfosBooleansOnServer.get(internalName);
 
-        trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+        trace("Looking For Extra Info Boolean From Server For: " + internalName + "\nFound Value of " + value);
 
         return value;
     }

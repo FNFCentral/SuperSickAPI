@@ -10,7 +10,7 @@ class Info {
     public static var topScoresOnServer: Map<Int, Int> = new Map<Int, Int>();
 
     public static var userExtraInfosStringsOnServer: Map<String, String> = new Map<String, String>();
-    public static var userExtraInfosNumbersOnServer: Map<String, Int> = new Map<String, Int>();
+    public static var userExtraInfosNumbersOnServer: Map<String, Float> = new Map<String, Float>();
     public static var userExtraInfosBooleansOnServer: Map<String, Bool> = new Map<String, Bool>();
 
     public static var userSettings: Map<String, Setting> = new Map<String, Setting>();
@@ -85,7 +85,7 @@ class Info {
 
     static function processUserExtraInfosFromServer(userExtraInfos: Array<Dynamic>) {
         var processedUserExtraInfosStrings = new Map<String, String>();
-        var processedUserExtraInfosNumbers = new Map<String, Int>();
+        var processedUserExtraInfosNumbers = new Map<String, Float>();
         var processedUserExtraInfosBooleans = new Map<String, Bool>();
 
         trace("Processing User Extra Infos From: " + userExtraInfos);

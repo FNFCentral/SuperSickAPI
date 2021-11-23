@@ -63,7 +63,7 @@ class Util {
         return value;
     }
 
-    static public function getUserExtraInfoNumberFromServer(internalName: String): Int {
+    static public function getUserExtraInfoNumberFromServer(internalName: String): Float {
         var value = Info.userExtraInfosNumbersOnServer.get(internalName);
 
         trace("Looking For Extra Info Number From Server For: " + internalName + "\nFound Value of " + value);

@@ -18,7 +18,7 @@ class Info {
     public static function setModData(data: Dynamic) {
         if (data.songs != null) songs = processSongsInfo(data.songs);
         if (data.extraInfos != null) extraInfos = processExtraInfos(data.extraInfos);
-        if (data.settings != null) userSettings = processUserSettings(data.settings);
+        if (data.settings != null) userSettings = processUserSettings(data.settings, true);
     }
 
     public static function setScoreData(data: Dynamic) {
@@ -30,7 +30,7 @@ class Info {
     }
 
     public static function setSettingData(data: Dynamic) {
-        if (data != null) userSettings = processUserSettings(data.userSettings);
+        if (data != null) userSettings = processUserSettings(data.userSettings, false);
     }
 
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
@@ -111,8 +111,13 @@ class Info {
         userExtraInfosBooleansOnServer = processedUserExtraInfosBooleans;
     }
 
-    static function processUserSettings(newUserSettings: Array<Dynamic>) {
+    static function processUserSettings(newUserSettings: Array<Dynamic>, reset: Bool) {
         var processedUserSettings = userSettings.copy();
+
+        if (reset) {
+            processedUserSettings = new Map<String, Setting>();
+            trace("Reset User Settings");
+        }
 
         trace("Processing User Settings!");
 

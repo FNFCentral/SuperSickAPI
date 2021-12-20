@@ -14,67 +14,90 @@ class Util {
         var song = Info.songs.get(intenalSong);
 
         if (song != null) {
-            var diffID = song.get(diff);
+            var rawDiff = song.getDiffs().get(diff);
 
-            if (diffID != null) {
-                return diffID;
+            if (rawDiff != null) {
+                return rawDiff.getDiffID();
             }
         }
 
         return null;
     }
 
-    public static function calcExtraInfoID(intenalName: String): Null<Int> {
-        return Info.extraInfos.get(intenalName);
-    }
-
     static public function getTopScoreSavedFromServer(song: String, diff: Int): Int {
-        var diffID = calcDiffID(song, diff);
+        var song = Info.songs.get(song);
 
-        if (diffID != null) {
-            var score = Info.topScoresOnServer.get(diffID);
+        if (song != null) {
+            var diff = song.getDiffs().get(diff);
 
-            trace("Looking For Top Score From Server For: " + song + " " + diff + "\nFound Diff ID of " + diffID + "\nFound Score: " + score);
+            if (diff != null) {
+                var score = diff.getTopScore();
 
-            if (score != null) {
+                trace("Looking For Top Score From Server For Diff: " + diff + " of Song " + song + "\nFound Score: " + score);
+
                 return score;
+            } else {
+                trace("Could not find top score for diff " + diff + " of song " + song + " as it does not exist.");
             }
+        } else {
+            trace("Could not find top score for song " + song + " as it does not exist.");
         }
 
         return 0;
     }
 
     static public function saveUserExtraInfo(internalName: String, value: Dynamic) {
-        var extraInfoID = calcExtraInfoID(internalName);
+        var extraInfo = Info.extraInfos.get(internalName);
 
-        if (extraInfoID != null) {
-            sendMessage({purpose: "save_extra_info", extraInfoID: extraInfoID, value: value});
-            trace("Sent save request for Extra Info " + extraInfoID + " of value " + value);
+        if (extraInfo != null) {
+            extraInfo.save(value);
+            trace("Sent save request for Extra Info " + internalName + " of value " + value);
         } else {
             trace("Attempted To Save Extra Info " + internalName + " which does not exist of value " + value);
         }
     }
 
     static public function getUserExtraInfoStringFromServer(internalName: String): String {
-        var value = Info.userExtraInfosStringsOnServer.get(internalName);
+        var extraInfo = Info.extraInfos.get(internalName);
 
-        trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+        var value = null;
+
+        if (extraInfo != null) {
+            value = extraInfo.getString();
+            trace("Looking For Extra Info String From Server For: " + internalName + "\nFound Value of " + value);
+        } else {
+            trace("Could Not Find Extra Info String From Server For: " + internalName);
+        }
 
         return value;
     }
 
     static public function getUserExtraInfoNumberFromServer(internalName: String): Float {
-        var value = Info.userExtraInfosNumbersOnServer.get(internalName);
+        var extraInfo = Info.extraInfos.get(internalName);
 
-        trace("Looking For Extra Info Number From Server For: " + internalName + "\nFound Value of " + value);
+        var value = null;
+
+        if (extraInfo != null) {
+            value = extraInfo.getNumber();
+            trace("Looking For Extra Info Number From Server For: " + internalName + "\nFound Value of " + value);
+        } else {
+            trace("Could Not Find Extra Info Number From Server For: " + internalName);
+        }
 
         return value;
     }
 
     static public function getUserExtraInfoBooleanFromServer(internalName: String): Bool {
-        var value = Info.userExtraInfosBooleansOnServer.get(internalName);
+        var extraInfo = Info.extraInfos.get(internalName);
 
-        trace("Looking For Extra Info Boolean From Server For: " + internalName + "\nFound Value of " + value);
+        var value = null;
+
+        if (extraInfo != null) {
+            value = extraInfo.getBoolean();
+            trace("Looking For Extra Info Boolean From Server For: " + internalName + "\nFound Value of " + value);
+        } else {
+            trace("Could Not Find Extra Info Boolean From Server For: " + internalName);
+        }
 
         return value;
     }

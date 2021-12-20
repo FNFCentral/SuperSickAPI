@@ -4,25 +4,20 @@ package;
  * Holds all the game info.
 **/
 class Info {
-    public static var songs: Map<String, Map<Int, Int>> = new Map<String, Map<Int, Int>>();
-    public static var extraInfos: Map<String, Int> = new Map<String, Int>();
+    public static var songs: Map<String, Song> = new Map<String, Song>();
 
-    public static var topScoresOnServer: Map<Int, Int> = new Map<Int, Int>();
-
-    public static var userExtraInfosStringsOnServer: Map<String, String> = new Map<String, String>();
-    public static var userExtraInfosNumbersOnServer: Map<String, Float> = new Map<String, Float>();
-    public static var userExtraInfosBooleansOnServer: Map<String, Bool> = new Map<String, Bool>();
+    public static var extraInfos: Map<String, ExtraInfo> = new Map<String, ExtraInfo>();
 
     public static var userSettings: Map<String, Setting> = new Map<String, Setting>();
 
     public static function setModData(data: Dynamic) {
         if (data.songs != null) songs = processSongsInfo(data.songs);
         if (data.extraInfos != null) extraInfos = processExtraInfos(data.extraInfos);
-        if (data.settings != null) userSettings = processUserSettings(data.settings, true);
+        if (data.settings != null) userSettings = processSettings(data.settings, true);
     }
 
     public static function setScoreData(data: Dynamic) {
-        if (data.topScores != null) topScoresOnServer = processTopScoresFromServer(data.topScores);
+        if (data.topScores != null) processTopScoresFromServer(data.topScores);
     }
 
     public static function setExtraInfo(data: Dynamic) {
@@ -30,24 +25,34 @@ class Info {
     }
 
     public static function setSettingData(data: Dynamic) {
-        if (data != null) userSettings = processUserSettings(data.userSettings, false);
+        if (data != null) userSettings = processSettings(data.userSettings, false);
     }
 
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
-        var topScores = new Map<Int, Int>();
-
         trace("Processing Top Scores!");
 
-        for (score in scores) {
-            topScores.set(score.diffID, score.score);
-            trace("Added " + score.score + " For " + score.diffID);
-        }
+        var diffs = new Map<Int, Diff>();
 
-        return topScores;
+        for (song in songs) {
+            for (diff in song.getDiffs()) {
+                diff.reset();
+                diffs.set(diff.getDiffID(), diff);
+            }
+        }
+        
+        for (score in scores) {
+            var diff = diffs.get(score.diffID);
+            if (diff != null) {
+                diff.set(score.score);
+                trace("Added " + score.score + " For " + score.diffID);
+            } else {
+                trace("Could Not Add " + score.score + " For " + score.diffID + " As That DiffID Does Not Exist");
+            }
+        }
     }
 
     static function processSongsInfo(songs: Array<Dynamic>) {
-        var processedSongs = new Map<String, Map<Int, Int>>();
+        var processedSongs = new Map<String, Song>();
 
         trace("Processing Songs!  Songs Given: " + songs.length);
 
@@ -56,76 +61,66 @@ class Info {
 
             trace("Processing Song " + song + " Diffs Given " + diffs.length);
 
-            var processedDiffs = new Map<Int, Int>();
+            var processedDiffs = new Map<Int, Diff>();
 
             for (diff in diffs) {
-                processedDiffs.set(diff.internalNumber, diff.diffID);
+                processedDiffs.set(diff.internalNumber, new Diff(diff.diffID, 0));
 
                 trace("Set Diff " + diff.internalNumber + " For Song " + song + " As DiffID " + diff.diffID);
             }
 
-            processedSongs.set(song.internalName, processedDiffs);
+            processedSongs.set(song.internalName, new Song(processedDiffs));
         }
 
         return processedSongs;
     }
 
     static function processExtraInfos(extraInfos: Array<Dynamic>) {
-        var processedExtraInfos = new Map<String, Int>();
+        var processedExtraInfos = new Map<String, ExtraInfo>();
 
         trace("Processing Extra Infos!");
 
         for (extraInfo in extraInfos) {
-            processedExtraInfos.set(extraInfo.internalName, extraInfo.extraInfoID);
-            trace("Set Internal Name " + extraInfo.internalName + " to " + extraInfo.extraInfoID);
+            processedExtraInfos.set(extraInfo.internalName, new ExtraInfo(extraInfo.extraInfoID, extraInfo.valueType, null));
+            trace("Set Internal Name " + extraInfo.internalName + " to " + extraInfo.extraInfoID + " with value " + extraInfo.value + " of type " + extraInfo.valueType);
         }
 
         return processedExtraInfos;
     }
 
     static function processUserExtraInfosFromServer(userExtraInfos: Array<Dynamic>) {
-        var processedUserExtraInfosStrings = new Map<String, String>();
-        var processedUserExtraInfosNumbers = new Map<String, Float>();
-        var processedUserExtraInfosBooleans = new Map<String, Bool>();
-
         trace("Processing User Extra Infos From: " + userExtraInfos);
 
-        for (userExtraInfo in userExtraInfos) {
-            switch (userExtraInfo.extraInfo.valueType) {
-                case "STRING": 
-                    processedUserExtraInfosStrings.set(userExtraInfo.extraInfo.internalName,  userExtraInfo.value);
-                    trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
-                case "NUMBER": 
-                    processedUserExtraInfosNumbers.set(userExtraInfo.extraInfo.internalName,  userExtraInfo.value);
-                    trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
-                case "BOOLEAN": 
-                    processedUserExtraInfosBooleans.set(userExtraInfo.extraInfo.internalName,  userExtraInfo.value);
-                    trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
-                default:
-                    trace("Bad Value Type " + userExtraInfo.extraInfo.valueType + " for " + userExtraInfo.extraInfo.internalName);
-            }
+        for (extraInfo in extraInfos) {
+            extraInfo.reset();
         }
 
-        userExtraInfosStringsOnServer = processedUserExtraInfosStrings;
-        userExtraInfosNumbersOnServer = processedUserExtraInfosNumbers;
-        userExtraInfosBooleansOnServer = processedUserExtraInfosBooleans;
+        for (userExtraInfo in userExtraInfos) {
+            var extraInfo = extraInfos.get(userExtraInfo.extraInfo.internalName);
+            if (extraInfo != null) {
+                extraInfo.set(userExtraInfo.value);
+                trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
+            } else {
+                trace("Could Not Add Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName + " As It Does Not Exist");
+            }
+        }
     }
 
-    static function processUserSettings(newUserSettings: Array<Dynamic>, reset: Bool) {
-        var processedUserSettings = userSettings.copy();
+    static function processSettings(newSettings: Array<Dynamic>, reset: Bool) {
+        var processedSettings = userSettings.copy();
 
         if (reset) {
-            processedUserSettings = new Map<String, Setting>();
+            processedSettings = new Map<String, Setting>();
             trace("Reset User Settings");
         }
 
         trace("Processing User Settings!");
 
-        for (userSetting in newUserSettings) {
-            processedUserSettings.set(userSetting.internalName, new Setting(userSetting.global, userSetting.value, userSetting.settingID));
-            trace("Added Settings Value " + userSetting.value + " for " + userSetting.internalName);
+        for (setting in newSettings) {
+            processedSettings.set(setting.internalName, new Setting(setting.global, setting.value, setting.settingID));
+            trace("Added Settings Value " + setting.value + " for " + setting.internalName);
         }
 
-        return processedUserSettings;
+        return processedSettings;
     }
 }

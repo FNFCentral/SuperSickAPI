@@ -89,7 +89,6 @@ class Info {
     }
 
     static function processUserExtraInfosFromServer(userExtraInfos: Array<Dynamic>) {
-        var processedExtraInfos = extraInfos.copy();
         trace("Processing User Extra Infos From: " + userExtraInfos);
 
         for (extraInfo in extraInfos) {
@@ -97,7 +96,7 @@ class Info {
         }
 
         for (userExtraInfo in userExtraInfos) {
-            var extraInfo = processedExtraInfos.get(userExtraInfo.extraInfo.internalName);
+            var extraInfo = extraInfos.get(userExtraInfo.extraInfo.internalName);
             if (extraInfo != null) {
                 extraInfo.set(userExtraInfo.value);
                 trace("Added Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName);
@@ -105,8 +104,6 @@ class Info {
                 trace("Could Not Add Value " + userExtraInfo.value + " for " + userExtraInfo.extraInfo.internalName + " As It Does Not Exist");
             }
         }
-
-        return processedExtraInfos;
     }
 
     static function processSettings(newSettings: Array<Dynamic>, reset: Bool) {

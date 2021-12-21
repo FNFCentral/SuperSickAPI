@@ -1,4 +1,4 @@
-package;
+package classes;
 
 class ExtraInfo {
     var extraInfoID: Int;

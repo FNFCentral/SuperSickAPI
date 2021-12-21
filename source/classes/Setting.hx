@@ -1,4 +1,4 @@
-package;
+package classes;
 
 class Setting {
     var global: Bool;

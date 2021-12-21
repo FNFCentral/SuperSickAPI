@@ -4,11 +4,11 @@ package;
  * Holds all the game info.
 **/
 class Info {
-    public static var songs: Map<String, Song> = new Map<String, Song>();
+    public static var songs: Map<String, classes.Song> = new Map<String, classes.Song>();
 
-    public static var extraInfos: Map<String, ExtraInfo> = new Map<String, ExtraInfo>();
+    public static var extraInfos: Map<String, classes.ExtraInfo> = new Map<String, classes.ExtraInfo>();
 
-    public static var userSettings: Map<String, Setting> = new Map<String, Setting>();
+    public static var userSettings: Map<String, classes.Setting> = new Map<String, classes.Setting>();
 
     public static function setModData(data: Dynamic) {
         if (data.songs != null) songs = processSongsInfo(data.songs);
@@ -31,7 +31,7 @@ class Info {
     static function processTopScoresFromServer(scores: Array<Dynamic>) {
         trace("Processing Top Scores!");
 
-        var diffs = new Map<Int, Diff>();
+        var diffs = new Map<Int, classes.Diff>();
 
         for (song in songs) {
             for (diff in song.getDiffs()) {
@@ -52,7 +52,7 @@ class Info {
     }
 
     static function processSongsInfo(songs: Array<Dynamic>) {
-        var processedSongs = new Map<String, Song>();
+        var processedSongs = new Map<String, classes.Song>();
 
         trace("Processing Songs!  Songs Given: " + songs.length);
 
@@ -61,27 +61,27 @@ class Info {
 
             trace("Processing Song " + song + " Diffs Given " + diffs.length);
 
-            var processedDiffs = new Map<Int, Diff>();
+            var processedDiffs = new Map<Int, classes.Diff>();
 
             for (diff in diffs) {
-                processedDiffs.set(diff.internalNumber, new Diff(diff.diffID, 0));
+                processedDiffs.set(diff.internalNumber, new classes.Diff(diff.diffID, 0));
 
                 trace("Set Diff " + diff.internalNumber + " For Song " + song + " As DiffID " + diff.diffID);
             }
 
-            processedSongs.set(song.internalName, new Song(processedDiffs));
+            processedSongs.set(song.internalName, new classes.Song(processedDiffs));
         }
 
         return processedSongs;
     }
 
     static function processExtraInfos(extraInfos: Array<Dynamic>) {
-        var processedExtraInfos = new Map<String, ExtraInfo>();
+        var processedExtraInfos = new Map<String, classes.ExtraInfo>();
 
         trace("Processing Extra Infos!");
 
         for (extraInfo in extraInfos) {
-            processedExtraInfos.set(extraInfo.internalName, new ExtraInfo(extraInfo.extraInfoID, extraInfo.valueType, null));
+            processedExtraInfos.set(extraInfo.internalName, new classes.ExtraInfo(extraInfo.extraInfoID, extraInfo.valueType, null));
             trace("Set Internal Name " + extraInfo.internalName + " to " + extraInfo.extraInfoID + " with value " + extraInfo.value + " of type " + extraInfo.valueType);
         }
 
@@ -110,14 +110,14 @@ class Info {
         var processedSettings = userSettings.copy();
 
         if (reset) {
-            processedSettings = new Map<String, Setting>();
+            processedSettings = new Map<String, classes.Setting>();
             trace("Reset User Settings");
         }
 
         trace("Processing User Settings!");
 
         for (setting in newSettings) {
-            processedSettings.set(setting.internalName, new Setting(setting.global, setting.value, setting.settingID));
+            processedSettings.set(setting.internalName, new classes.Setting(setting.global, setting.value, setting.settingID));
             trace("Added Settings Value " + setting.value + " for " + setting.internalName);
         }
 

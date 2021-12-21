@@ -1,4 +1,4 @@
-package;
+package classes;
 
 class Diff {
     var diffID: Int;

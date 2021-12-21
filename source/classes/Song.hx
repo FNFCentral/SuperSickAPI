@@ -1,4 +1,4 @@
-package;
+package classes;
 
 class Song {
     var diffs: Map<Int, Diff>;

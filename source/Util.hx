@@ -25,13 +25,13 @@ class Util {
     }
 
     static public function getTopScoreSavedFromServer(song: String, diff: Int): Int {
-        var song = Info.songs.get(song);
+        var processedSong = Info.songs.get(song);
 
-        if (song != null) {
-            var diff = song.getDiffs().get(diff);
+        if (processedSong != null) {
+            var processedDiff = processedSong.getDiffs().get(diff);
 
-            if (diff != null) {
-                var score = diff.getTopScore();
+            if (processedDiff != null) {
+                var score = processedDiff.getTopScore();
 
                 trace("Looking For Top Score From Server For Diff: " + diff + " of Song " + song + "\nFound Score: " + score);
 

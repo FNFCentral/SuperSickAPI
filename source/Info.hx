@@ -82,7 +82,7 @@ class Info {
 
         for (extraInfo in extraInfos) {
             processedExtraInfos.set(extraInfo.internalName, new classes.ExtraInfo(extraInfo.extraInfoID, extraInfo.valueType, null));
-            trace("Set Internal Name " + extraInfo.internalName + " to " + extraInfo.extraInfoID + " with value " + extraInfo.value + " of type " + extraInfo.valueType);
+            trace("Set Internal Name " + extraInfo.internalName + " to " + extraInfo.extraInfoID + " with type " + extraInfo.valueType);
         }
 
         return processedExtraInfos;
